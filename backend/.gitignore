@@ -1,0 +1,26 @@
+# Build output
+dist/
+
+# Dependencies
+node_modules/
+
+# Environment
+.env
+
+# Logs
+*.log
+
+# Uploads and outputs (handled by root)
+uploads/
+outputs/
+
+# TinyTeX and Pandoc local installations
+.tinytex/
+.pandoc/
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
