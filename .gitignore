@@ -15,11 +15,6 @@ outputs/
 .tinytex/
 .pandoc/
 
-# Environment
-.env
-.env.local
-.env.*.local
-
 # Logs
 logs/
 *.log
