@@ -35,8 +35,8 @@ ENV NODE_ENV=production
 ENV PORT=3000
 ENV UPLOAD_DIR=/app/uploads
 ENV OUTPUT_DIR=/app/outputs
-ENV TINYTEX_DIR=/app/.tinytex
-ENV PANDOC_DIR=/app/.pandoc
+ENV TINYTEX_DIR=/app/.data/tinytex
+ENV PANDOC_DIR=/app/.data/pandoc
 
 # Create directories
 RUN mkdir -p uploads outputs
