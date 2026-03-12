@@ -34,7 +34,8 @@ export class JobService {
   }
 
   async initialize(): Promise<void> {
-    await this.conversionService.initialize();
+    // Start initialization in background without waiting
+    this.conversionService.initialize();
   }
 
   createJob(files: string[], options: ConversionOptions, coverFile?: string): Job {

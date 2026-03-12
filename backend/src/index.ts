@@ -6,16 +6,16 @@ const PORT = process.env.PORT || 3000;
 async function main() {
   try {
     console.log('Starting tobook server...');
-    
-    // Initialize services
+
+    // Initialize services (non-blocking)
     const jobService = JobService.getInstance();
-    console.log('Initializing services...');
-    await jobService.initialize();
-    console.log('Services initialized');
+    console.log('Starting service initialization in background...');
+    jobService.initialize(); // Don't await - this runs in background
+    console.log('Server starting (binaries installing in background)...');
 
     // Create and start server
     const app = await createServer();
-    
+
     const server = app.listen(PORT, () => {
       console.log(`Server running on port ${PORT}`);
       console.log(`Health check: http://localhost:${PORT}/api/health`);
@@ -24,13 +24,13 @@ async function main() {
     // Graceful shutdown
     const shutdown = async () => {
       console.log('\nShutting down gracefully...');
-      
+
       server.close(() => {
         console.log('HTTP server closed');
       });
 
       jobService.stop();
-      
+
       process.exit(0);
     };
 

@@ -24,6 +24,16 @@ export function createConvertRoutes(jobService: JobService): Router {
         isbn,
       } = req.body;
 
+      // Check if binaries are ready
+      const status = (jobService as any)['conversionService'].getStatus();
+      if (!status.ready) {
+        return res.status(503).json({
+          error: 'Service unavailable',
+          message: 'Binaries are still installing. Please try again in a few minutes.',
+          installing: status.installing,
+        });
+      }
+
       // Validate required fields
       if (!files || !Array.isArray(files) || files.length === 0) {
         return res.status(400).json({ error: 'No files provided' });
