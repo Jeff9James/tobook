@@ -20,7 +20,7 @@ export async function createServer(): Promise<express.Application> {
   app.get('/api/health', (req, res) => {
     const status = jobService['conversionService'].getStatus();
     res.json({
-      status: 'ok',
+      status: status.ready ? 'ok' : 'starting',
       binaries: status,
       ready: status.ready,
     });

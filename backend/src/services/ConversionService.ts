@@ -24,10 +24,13 @@ export class ConversionService {
   }
 
   async initialize(): Promise<void> {
-    await Promise.all([
-      this.tinytexService.initialize(),
-      this.pandocService.initialize(),
-    ]);
+    // Start initialization in background without waiting
+    this.tinytexService.initialize().catch(error => {
+      console.error('TinyTeX initialization failed:', error);
+    });
+    this.pandocService.initialize().catch(error => {
+      console.error('Pandoc initialization failed:', error);
+    });
   }
 
   async convert(
@@ -247,13 +250,14 @@ export class ConversionService {
     return 'book';
   }
 
-  getStatus(): { pandoc: boolean; tinytex: boolean; ready: boolean } {
+  getStatus(): { pandoc: boolean; tinytex: boolean; ready: boolean; installing: boolean } {
     const pandocStatus = this.pandocService.getStatus();
     const tinytexStatus = this.tinytexService.getStatus();
     
     return {
       pandoc: pandocStatus.installed,
       tinytex: tinytexStatus.installed,
+      installing: pandocStatus.installing || tinytexStatus.installing,
       ready: pandocStatus.installed && tinytexStatus.installed,
     };
   }
