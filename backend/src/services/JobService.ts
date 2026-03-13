@@ -196,4 +196,8 @@ export class JobService {
       clearInterval(this.cleanupInterval);
     }
   }
+
+  getStatus(): { ready: boolean; pandoc: boolean; tinytex: boolean; installing: boolean } {
+    return this.conversionService.getStatus();
+  }
 }

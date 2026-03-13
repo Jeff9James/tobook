@@ -18,12 +18,21 @@ export async function createServer(): Promise<express.Application> {
 
   // Health check
   app.get('/api/health', (req, res) => {
-    const status = jobService['conversionService'].getStatus();
-    res.json({
-      status: status.ready ? 'ok' : 'starting',
-      binaries: status,
-      ready: status.ready,
-    });
+    try {
+      const status = jobService.getStatus();
+      res.json({
+        status: status.ready ? 'ok' : 'starting',
+        binaries: status,
+        ready: status.ready,
+      });
+    } catch (error) {
+      console.error('Healthcheck error:', error);
+      res.status(200).json({
+        status: 'error',
+        ready: false,
+        error: error instanceof Error ? error.message : 'Unknown error',
+      });
+    }
   });
 
   // Routes
